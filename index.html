@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LinkAO - Servidor de Argentum Online en fase alfa. Descarga el cliente y juega gratis.">
+    <title>LinkAO - Servidor de Argentum Online</title>
+    <link rel="icon" type="image/x-icon" href="link.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                linear-gradient(rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.6)),
+                url('FondoPagina.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(101, 67, 33, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        header {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)),
+                repeating-linear-gradient(90deg, 
+                    rgba(139, 69, 19, 0.3) 0px, 
+                    rgba(139, 69, 19, 0.3) 2px, 
+                    transparent 2px, 
+                    transparent 10px);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 
+                0 5px 20px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255, 215, 0, 0.2),
+                inset 0 -1px 0 rgba(139, 69, 19, 0.5);
+            border-bottom: 3px solid rgba(139, 69, 19, 0.6);
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 3px 3px 6px rgba(0,0,0,0.7), 0 0 10px #ffd700; }
+            to { text-shadow: 3px 3px 6px rgba(0,0,0,0.7), 0 0 20px #ffd700, 0 0 30px #ffd700; }
+        }
+        
+        .tagline {
+            font-size: 1.3em;
+            color: #ffd700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .download-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 50px 40px;
+            text-align: center;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .download-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 25px 60px;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            margin: 30px 20px;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
+            transition: all 0.3s;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.7);
+            background: linear-gradient(45deg, #ee5a6f, #ff6b6b);
+        }
+        
+        .version-info {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #ddd;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 35px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .feature-card h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        .feature-card p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        
+        .server-info {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .server-info h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: #ffd700;
+        }
+        
+        .info-item {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 1.2em;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            color: #ffd700;
+            font-weight: bold;
+            margin-right: 10px;
+            display: inline-block;
+            min-width: 150px;
+        }
+        
+        .guide-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .guide-section h2 {
+            color: #ffd700;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .guide-section ol {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 2.2;
+            font-size: 1.2em;
+        }
+        
+        .guide-section li {
+            margin: 15px 0;
+            padding-left: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.6);
+            margin-top: 60px;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 25px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+        
+        .social-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .gallery-section {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 40px 20px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎮 LinkAO</h1>
+        <p class="tagline">⚔️ Tu Aventura en Argentum Online Comienza Aquí ⚔️</p>
+    </header>
+    
+    <div class="container">
+        <!-- Sección de descarga principal -->
+        <div class="download-section">
+            <h2>📥 Descarga el Cliente</h2>
+            <p style="margin: 20px 0; font-size: 1.2em;">¡Únete a la aventura! Descarga gratis y comienza a jugar</p>
+            
+            <a href="https://www.mediafire.com/file/wccx5e5vwdmzxyu/LinkAO.rar/file" target="_blank" class="download-btn">⬇️ DESCARGAR CLIENTE</a>
+            
+            <p class="version-info">
+                📦 Versión: 1.4.5<br>
+                🗓️ Actualizado: Noviembre 2025<br>
+                💾 Tamaño: 296 MB
+            </p>
+        </div>
+        
+        <!-- Aviso de Fase Alfa -->
+        <div style="background: rgba(255, 215, 0, 0.2); border: 2px solid #ffd700; border-radius: 15px; padding: 30px; margin: 30px auto; max-width: 800px; text-align: center;">
+            <h2 style="color: #ffd700; font-size: 2em; margin-bottom: 15px;">🚧 SERVIDOR EN FASE ALFA 🚧</h2>
+            <p style="font-size: 1.2em; line-height: 1.8; margin-bottom: 20px;">
+                Estamos en fase de pruebas y desarrollo activo. Pueden aparecer bugs o errores durante el juego.
+            </p>
+            <p style="font-size: 1.1em; color: #ffd700;">
+                🐛 <strong>¿Encontraste un bug?</strong><br>
+                Repórtalo en nuestro Discord en la sección de <strong>BUGS</strong>
+            </p>
+            <a href="https://discord.gg/6MpsF8vV" target="_blank" style="display: inline-block; margin-top: 20px; padding: 15px 40px; background: #5865F2; color: white; text-decoration: none; border-radius: 10px; font-size: 1.1em; font-weight: bold; transition: all 0.3s;">
+                💬 Reportar Bug en Discord
+            </a>
+        </div>
+        
+        <!-- Características del servidor -->
+        <div class="features">
+            <div class="feature-card">
+                <h3>🔄 Actualizaciones Constantes</h3>
+                <p>Sistema en desarrollo activo con mejoras y nuevo contenido regularmente.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>👥 Comunidad Activa</h3>
+                <p>Servidor estable con moderación activa y eventos regulares.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🎯 Eventos y Premios</h3>
+                <p>Torneos, invasiones y eventos especiales con recompensas únicas.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🆓 100% Gratuito</h3>
+                <p>Sin pagos para ganar. Todos los jugadores tienen las mismas oportunidades.</p>
+            </div>
+        </div>
+        
+        <!-- Información del servidor -->
+        <div class="server-info">
+            <h2>📊 Información del Servidor</h2>
+            
+            <div class="info-item" style="justify-content: center; font-size: 1.2em;">
+                <a href="https://discord.gg/6MpsF8vV" target="_blank" style="color: #ffd700; text-decoration: none; transition: all 0.3s;">
+                    💬 Únete a nuestro Discord para más información
+                </a>
+            </div>
+        </div>
+        
+        <!-- Galería de imágenes del juego -->
+        <div class="gallery-section">
+            <h2>🎮 Capturas del Juego</h2>
+            <p style="text-align: center; font-size: 1.1em; margin: 10px 0 20px 0; color: #ffd700;">
+                Explora el mundo de LinkAO
+            </p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="multimedia.png" alt="LinkAO Gameplay 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="multimedia2.png" alt="LinkAO Gameplay 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="multimedia3.png" alt="LinkAO Gameplay 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="multimedia4.png" alt="LinkAO Gameplay 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="multimedia5.png" alt="LinkAO Gameplay 5">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Programa para descomprimir -->
+        <div class="guide-section" style="background: rgba(255, 69, 0, 0.15); border: 2px solid rgba(255, 140, 0, 0.5); margin-bottom: 30px;">
+            <h2>📦 ¿Necesitas descomprimir archivos .RAR?</h2>
+            <p style="margin: 20px 0; font-size: 1.1em;">
+                El cliente está comprimido en formato <strong>.RAR</strong>. Si no tienes un programa para descomprimir, descarga uno de estos:
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 30px 0;">
+                <a href="https://www.win-rar.com/start.html?&L=0" target="_blank" style="padding: 15px 30px; background: rgba(255, 215, 0, 0.2); border: 2px solid #ffd700; border-radius: 10px; color: #ffd700; text-decoration: none; font-weight: bold; transition: all 0.3s; display: inline-block;">
+                    📦 Descargar WinRAR
+                </a>
+                <a href="https://www.7-zip.org/" target="_blank" style="padding: 15px 30px; background: rgba(255, 215, 0, 0.2); border: 2px solid #ffd700; border-radius: 10px; color: #ffd700; text-decoration: none; font-weight: bold; transition: all 0.3s; display: inline-block;">
+                    📦 Descargar 7-Zip (Gratis)
+                </a>
+            </div>
+        </div>
+        
+        <!-- Guía de instalación -->
+        <div class="guide-section">
+            <h2>📖 Guía de Instalación</h2>
+            <ol>
+                <li><strong>Descarga</strong> el cliente desde el botón de arriba</li>
+                <li><strong>Descomprime</strong> el archivo .RAR usando WinRAR o 7-Zip</li>
+                <li><strong>Extrae</strong> el contenido en tu computadora (Ej: C:\LinkAO)</li>
+                <li><strong>⚠️ IMPORTANTE:</strong> Ejecuta primero el <strong>Instalador de Librerías</strong></li>
+                <li><strong>Ejecuta</strong> el juego (LinkAO.exe)</li>
+                <li><strong>Crea tu cuenta</strong> e inicia tu aventura!</li>
+            </ol>
+            <p style="margin-top: 20px; font-size: 1em; color: #ffd700;">
+                💡 <strong>Nota:</strong> El instalador de librerías solo se ejecuta la primera vez.
+            </p>
+        </div>
+        
+        <!-- Requisitos del sistema -->
+        <div class="guide-section">
+            <h2>💻 Requisitos del Sistema</h2>
+            <div style="max-width: 600px; margin: 0 auto; text-align: left; font-size: 1.1em; line-height: 2;">
+                ✅ <strong>Sistema Operativo:</strong> Windows 7/8/10/11<br>
+                ✅ <strong>RAM:</strong> 2 GB mínimo<br>
+                ✅ <strong>Espacio:</strong> 500 MB libres<br>
+                ✅ <strong>DirectX:</strong> 9.0c o superior<br>
+                ✅ <strong>Internet:</strong> Conexión estable<br>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="social-links">
+            <h3 style="margin-bottom: 20px;">🌐 Comunidad</h3>
+            <a href="https://discord.gg/6MpsF8vV" target="_blank" class="social-btn">💬 Discord</a>
+            <a href="https://www.instagram.com/link.aoarg/" target="_blank" class="social-btn">📸 Instagram</a>
+        </div>
+        
+        <p style="margin-top: 30px; font-size: 1.1em;">&copy; 2025 LinkAO - Todos los derechos reservados</p>
+        <p style="margin-top: 10px; font-size: 0.9em; color: #ccc;">Basado en Argentum Online</p>
+    </footer>
+</body>
+</html>
+
