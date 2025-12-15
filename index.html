@@ -287,6 +287,113 @@
             border: 2px solid rgba(255, 215, 0, 0.3);
             border-radius: 10px;
         }
+        
+        .credits-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 50px 40px;
+            margin: 50px 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+        }
+        
+        .credits-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        .credits-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            color: #ddd;
+        }
+        
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .package-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 30px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .package-card h3 {
+            color: #ffd700;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        
+        .package-price {
+            font-size: 2em;
+            color: #4CAF50;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .package-credits {
+            font-size: 1.5em;
+            color: #fff;
+            margin: 10px 0;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+        }
+        
+        .buy-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            margin-top: 20px;
+            color: #ffd700;
+            font-size: 1.1em;
+        }
+        
+        .error-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff4444;
+            border-radius: 10px;
+            color: #ff4444;
+        }
     </style>
 </head>
 <body>
@@ -346,6 +453,53 @@
                 <h3>🆓 100% Gratuito</h3>
                 <p>Sin pagos para ganar. Todos los jugadores tienen las mismas oportunidades.</p>
             </div>
+        </div>
+        
+        <!-- Sección de Compra de Créditos -->
+        <div class="credits-section">
+            <h2>💎 Comprar Créditos</h2>
+            <p>Apoya el servidor y obtén créditos para usar en la tienda del juego</p>
+            
+            <div class="packages-grid">
+                <div class="package-card" onclick="comprarCreditos(1)">
+                    <h3>Paquete 1</h3>
+                    <div class="package-price">$1 ARS</div>
+                    <div class="package-credits">100 Créditos</div>
+                    <button class="buy-btn" onclick="event.stopPropagation(); comprarCreditos(1)">Comprar</button>
+                </div>
+                
+                <div class="package-card" onclick="comprarCreditos(2)">
+                    <h3>Paquete 2</h3>
+                    <div class="package-price">$500 ARS</div>
+                    <div class="package-credits">550 Créditos</div>
+                    <button class="buy-btn" onclick="event.stopPropagation(); comprarCreditos(2)">Comprar</button>
+                </div>
+                
+                <div class="package-card" onclick="comprarCreditos(3)">
+                    <h3>Paquete 3</h3>
+                    <div class="package-price">$1.000 ARS</div>
+                    <div class="package-credits">1.200 Créditos</div>
+                    <button class="buy-btn" onclick="event.stopPropagation(); comprarCreditos(3)">Comprar</button>
+                </div>
+                
+                <div class="package-card" onclick="comprarCreditos(4)">
+                    <h3>Paquete 4</h3>
+                    <div class="package-price">$2.000 ARS</div>
+                    <div class="package-credits">2.500 Créditos</div>
+                    <button class="buy-btn" onclick="event.stopPropagation(); comprarCreditos(4)">Comprar</button>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                ⏳ Procesando pago...
+            </div>
+            
+            <div class="error-message" id="error-message"></div>
+            
+            <p style="margin-top: 30px; font-size: 0.9em; color: #aaa;">
+                💡 Los créditos se agregarán automáticamente a tu cuenta después del pago.<br>
+                ⚠️ Necesitas estar logueado en el juego para recibir los créditos.
+            </p>
         </div>
         
         <!-- Información del servidor -->
@@ -447,6 +601,154 @@
         <p style="margin-top: 30px; font-size: 1.1em;">&copy; 2025 LinkAO - Todos los derechos reservados</p>
         <p style="margin-top: 10px; font-size: 0.9em; color: #ccc;">Basado en Argentum Online</p>
     </footer>
+    
+    <script>
+        // Detectar si estamos en localhost o en producción
+        const isLocalFile = window.location.protocol === 'file:';
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        
+        // URL del servidor de Mercado Pago
+        // Si estás abriendo el archivo directamente (file://), usa localhost
+        // Si está en un servidor web, usa la URL del servidor
+        let MERCADOPAGO_SERVER_URL = 'http://localhost:5000';
+        
+        // Si estamos en producción (no es file:// ni localhost), cambiar la URL
+        if (!isLocalFile && !isLocalhost) {
+            // Cambiar por tu URL de producción
+            MERCADOPAGO_SERVER_URL = 'https://tudominio.com:5000'; // CAMBIAR ESTO
+        }
+        
+        // Función para verificar si el servidor está disponible
+        async function verificarServidor() {
+            try {
+                const response = await fetch(MERCADOPAGO_SERVER_URL + '/health', {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                return response.ok;
+            } catch (error) {
+                console.warn('Servidor no disponible:', error);
+                return false;
+            }
+        }
+        
+        async function comprarCreditos(paquete) {
+            // Ocultar mensajes anteriores
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            
+            // Deshabilitar botones
+            const buttons = document.querySelectorAll('.buy-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            try {
+                // Verificar si el servidor está disponible
+                const servidorDisponible = await verificarServidor();
+                if (!servidorDisponible) {
+                    throw new Error('El servidor de Mercado Pago no está disponible. Asegúrate de que el servidor web esté corriendo en ' + MERCADOPAGO_SERVER_URL);
+                }
+                
+                // Solicitar nombre de cuenta al usuario
+                const cuenta = prompt('Ingresa el nombre de tu cuenta en el juego:');
+                
+                if (!cuenta || cuenta.trim() === '') {
+                    throw new Error('Debes ingresar el nombre de tu cuenta');
+                }
+                
+                // Determinar URLs de retorno
+                let successUrl, failureUrl, pendingUrl;
+                if (isLocalFile) {
+                    // Si es archivo local, usar rutas relativas
+                    successUrl = 'pago_exitoso.html';
+                    failureUrl = 'pago_fallido.html';
+                    pendingUrl = 'pago_pendiente.html';
+                } else {
+                    // Si está en servidor web, usar URL completa
+                    successUrl = window.location.origin + '/pago_exitoso.html';
+                    failureUrl = window.location.origin + '/pago_fallido.html';
+                    pendingUrl = window.location.origin + '/pago_pendiente.html';
+                }
+                
+                // Hacer petición al servidor
+                const response = await fetch(MERCADOPAGO_SERVER_URL + '/crear_preferencia', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cuenta: cuenta.trim(),
+                        paquete: paquete.toString(),
+                        success_url: successUrl,
+                        failure_url: failureUrl,
+                        pending_url: pendingUrl
+                    })
+                });
+                
+                if (!response.ok) {
+                    let errorMsg = 'Error al crear el pago';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = 'Error HTTP ' + response.status + ': ' + response.statusText;
+                    }
+                    throw new Error(errorMsg);
+                }
+                
+                const data = await response.json();
+                
+                // Redirigir a Mercado Pago
+                if (data.init_point) {
+                    window.location.href = data.init_point;
+                } else if (data.sandbox_init_point) {
+                    window.location.href = data.sandbox_init_point;
+                } else {
+                    throw new Error('No se recibió la URL de pago del servidor');
+                }
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                const errorDiv = document.getElementById('error-message');
+                
+                let mensajeError = '❌ Error: ' + error.message;
+                
+                // Mensajes adicionales según el tipo de error
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    mensajeError += '\n\n🔧 Posibles soluciones:\n';
+                    mensajeError += '1. Asegúrate de que el servidor web esté corriendo\n';
+                    mensajeError += '   Ejecuta: python mercado_pago_server.py\n';
+                    mensajeError += '2. Verifica que el servidor esté en: ' + MERCADOPAGO_SERVER_URL + '\n';
+                    mensajeError += '3. Si abres el archivo directamente (file://), el navegador puede bloquear las peticiones\n';
+                    mensajeError += '   Solución: Abre la página desde un servidor web local (http://localhost)';
+                } else {
+                    mensajeError += '\n\nAsegúrate de que:\n';
+                    mensajeError += '1. El servidor web esté corriendo\n';
+                    mensajeError += '2. Estés usando la URL correcta: ' + MERCADOPAGO_SERVER_URL + '\n';
+                    mensajeError += '3. Tengas conexión a internet';
+                }
+                
+                errorDiv.textContent = mensajeError;
+                errorDiv.style.display = 'block';
+                
+                // Rehabilitar botones
+                buttons.forEach(btn => btn.disabled = false);
+            }
+        }
+        
+        // Verificar si el servidor está disponible al cargar la página
+        window.addEventListener('load', async () => {
+            const servidorDisponible = await verificarServidor();
+            if (!servidorDisponible) {
+                console.warn('⚠️ Servidor de Mercado Pago no disponible en:', MERCADOPAGO_SERVER_URL);
+                console.warn('💡 Para iniciar el servidor, ejecuta: python mercado_pago_server.py');
+            } else {
+                console.log('✅ Servidor de Mercado Pago disponible');
+            }
+        });
+    </script>
 </body>
 </html>
 
